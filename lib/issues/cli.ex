@@ -51,6 +51,7 @@ defmodule Issues.CLI do
     |> decode_response
     |> sort_into_desc_order
     |> last(count)
+    |> print_as_table
   end
 
   def decode_response({:ok, body}), do: body
@@ -68,5 +69,42 @@ defmodule Issues.CLI do
     list
     |> Enum.take(count)
     |> Enum.reverse
+  end
+
+  @id_column_size 12
+  @created_at_column_size 25
+  @title_column_size 80
+
+  def print_as_table(issues) do
+    print_table_header()
+    for issue <- issues, do: print_row(issue)
+  end
+
+  def print_table_header do
+    IO.puts column_headers()
+    IO.puts headers_border()
+  end
+
+  def column_headers do
+    " #" <> String.duplicate(" ", @id_column_size - String.length(" #")) <> "|" <>
+    " created_at" <> String.duplicate(" ", @created_at_column_size - String.length(" created_at")) <> "|" <>
+    " title" <> String.duplicate(" ", @title_column_size - String.length(" title"))
+  end
+
+  def headers_border do
+    String.duplicate("-", @id_column_size) <> "+" <>
+    String.duplicate("-", @created_at_column_size) <> "+" <>
+    String.duplicate("-", @title_column_size)
+  end
+
+  def print_row(issue) do
+    id_val = issue["id"]
+    created_at_val = issue["created_at"]
+    title_val = issue["title"]
+    IO.puts(
+      " " <> Kernel.inspect(id_val) <> String.duplicate(" ", @id_column_size - String.length(Kernel.inspect id_val) - 1) <> "|"
+      <> " " <> created_at_val <> String.duplicate(" ", @created_at_column_size - String.length(created_at_val) - 1) <> "|"
+      <> " " <> title_val <> String.duplicate(" ", @title_column_size - String.length(title_val) - 1)
+    )
   end
 end
