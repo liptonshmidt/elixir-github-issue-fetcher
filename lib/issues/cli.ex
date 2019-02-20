@@ -8,8 +8,8 @@ defmodule Issues.CLI do
   """
 
 
-  def run(argv) do
-    argv 
+  def main(argv) do
+    argv
     |> parse_args
     |> process
   end
@@ -46,7 +46,7 @@ defmodule Issues.CLI do
     System.halt(0)
   end
 
-  def process([user, project, count]) do
+  def process({user, project, count}) do
     Issues.GithubIssues.fetch(user, project)
     |> decode_response
     |> sort_into_desc_order
