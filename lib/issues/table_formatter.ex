@@ -19,6 +19,14 @@ defmodule Issues.TableFormatter do
     end
   end
 
+  @doc """
+  Return a binary (string) version of the parameter.
+  ## Examples
+    iex> Issues.TableFormatter.printable("a")
+    "a"
+    iex> Issues.TableFormatter.printable(99)
+    "99"
+  """
   def printable(str) when is_binary(str), do: str
   def printable(str), do: to_string(str)
 
