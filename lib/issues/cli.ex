@@ -7,7 +7,6 @@ defmodule Issues.CLI do
   table of the last _n_ issues in a github project
   """
 
-
   def main(argv) do
     argv
     |> parse_args
@@ -39,9 +38,9 @@ defmodule Issues.CLI do
   end
 
   def process(:help) do
-    IO.puts """
+    IO.puts("""
       usage:  issues <user> <project> [ count | #{@default_count} ]
-    """
+    """)
 
     System.halt(0)
   end
@@ -55,8 +54,9 @@ defmodule Issues.CLI do
   end
 
   def decode_response({:ok, body}), do: body
+
   def decode_response({:error, error}) do
-    IO.puts "Error fetching from Github: #{error["message"]}"
+    IO.puts("Error fetching from Github: #{error["message"]}")
     System.halt(2)
   end
 
@@ -68,6 +68,6 @@ defmodule Issues.CLI do
   def last(list, count) do
     list
     |> Enum.take(count)
-    |> Enum.reverse
+    |> Enum.reverse()
   end
 end

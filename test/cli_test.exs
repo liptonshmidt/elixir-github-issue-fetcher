@@ -31,6 +31,6 @@ defmodule CliTest do
 
   defp fake_created_at_list(values) do
     for value <- values,
-    do: %{"created_at" => value, "other_data" => "data"}
+        do: %{"created_at" => value, "other_data" => "data"}
   end
 end
